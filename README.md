@@ -19,7 +19,7 @@ Every 20 minutes, Clarity will play a sound signal and display a simple timer, r
 ## Technologies
 - **Go** - Primary programming language
 - **[Go-gl](https://github.com/go-gl/gl)** - Graphics rendering
-- **[Gl-glfw](https://github.com/go-gl/glfw)** - Window management
+- **[Go-gl/glfw](https://github.com/go-gl/glfw)** - Window management
 
 ## Installation & Building
 
