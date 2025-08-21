@@ -11,7 +11,7 @@ Every 20 minutes, Clarity will play a sound signal and display a simple timer, r
 - **Procedural UI**: Renders clean, font-less graphics
 - **Audible Alerts**: Clear sound signals for the start and end of each break
 - **Lightweight**: Minimal resource consumption
-- 
+  
 ## Controls & Interaction
 - **Timer Window**: Automatically appears when a break is due
 - **Automatic Dismissal**: The break window closes automatically after 20 seconds with a sound
