@@ -9,6 +9,17 @@ import (
 const windowWidth = 210
 const windowHeight = 90
 
+type element interface{
+	create(float32) element
+	getVtc() []float32
+	getVtq() int32
+}
+type digit struct {
+	vtc []float32
+	vtq int32
+	num int
+}
+
 func PrimaryWindow() *glfw.Window {
 	glfw.WindowHint(glfw.RefreshRate, 60)
 	glfw.WindowHint(glfw.Resizable, glfw.False)
@@ -26,5 +37,6 @@ func PrimaryWindow() *glfw.Window {
 	}
 
 	win.MakeContextCurrent()
+	win.SetAttrib(glfw.Floating, 1)
 	return win
 }

@@ -11,9 +11,10 @@ const vertexShaderSource = `
 #version 410 core
 
 layout (location = 0) in vec3 aPos;
+uniform float xOffset;
 
 void main() {
-	gl_Position = vec4(aPos, 1.0);
+	gl_Position = vec4(aPos.x + xOffset, aPos.y, aPos.z, 1.0);
 }` + "\x00"
 
 const fragmentShaderSource = `
@@ -22,7 +23,7 @@ const fragmentShaderSource = `
 out vec4 FragColor;
 
 void main() {
-	FragColor = vec4(1.0, 1.0, 1.0, 0.7);
+	FragColor = vec4(1.0, 0.0, 0.0, 1.0);
 }` + "\x00"
 
 func attachShaders(pg uint32) []uint32 {

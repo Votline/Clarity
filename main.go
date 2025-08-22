@@ -26,10 +26,15 @@ func main() {
 	}
 
 	win := ui.PrimaryWindow()
-	render.Setup()
+	pg, ofl := render.Setup()
 
+	hv := ui.CreateView(pg, ofl)
+
+	glfw.SwapInterval(1)
 	for !win.ShouldClose() {
 		gl.Clear(gl.COLOR_BUFFER_BIT)
+
+		hv.Render(78)
 
 		win.SwapBuffers()
 		glfw.PollEvents()
