@@ -1,8 +1,8 @@
 package ui
 
 const (
-	minX = -0.3
-	maxX = -0.2
+	minX = -0.6
+	maxX = -0.5
 
 	maxY = 0.4
 	minY = -0.2

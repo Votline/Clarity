@@ -8,6 +8,7 @@ import (
 	"github.com/go-gl/gl/v4.1-core/gl"
 
 	"Clarity/internal/ui"
+	"Clarity/internal/core"
 	"Clarity/internal/render"
 )
 
@@ -25,18 +26,26 @@ func main() {
 		log.Fatalf("OpenGL init error: \n%v", err)
 	}
 
-	win := ui.PrimaryWindow()
-	pg, ofl := render.Setup()
+	for {
+		win := ui.PrimaryWindow()
+		pg, ofl := render.Setup()
 
-	hv := ui.CreateView(pg, ofl)
+		hv := ui.CreateView(pg, ofl)
 
-	glfw.SwapInterval(1)
-	for !win.ShouldClose() {
-		gl.Clear(gl.COLOR_BUFFER_BIT)
+		done := false
+		go core.Timer(win, &done)
 
-		hv.Render(78)
+		glfw.SwapInterval(1)
+		for !win.ShouldClose() {
+			gl.Clear(gl.COLOR_BUFFER_BIT)
 
-		win.SwapBuffers()
-		glfw.PollEvents()
+			if done {
+				hv.Render(78)
+			}
+
+			win.SwapBuffers()
+			glfw.PollEvents()
+		}
+		win.Destroy()
 	}
 }

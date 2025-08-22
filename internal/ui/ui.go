@@ -38,5 +38,6 @@ func PrimaryWindow() *glfw.Window {
 
 	win.MakeContextCurrent()
 	win.SetAttrib(glfw.Floating, 1)
+	win.Hide()
 	return win
 }
