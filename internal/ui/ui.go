@@ -6,9 +6,6 @@ import (
 	"github.com/go-gl/glfw/v3.3/glfw"
 )
 
-const windowWidth = 150
-const windowHeight = 70
-
 type element interface{
 	create() element
 	getVtc() []float32
@@ -21,7 +18,7 @@ type digit struct {
 	num rune
 }
 
-func PrimaryWindow() *glfw.Window {
+func PrimaryWindow(alX, alY int, winW, winH int) *glfw.Window {
 	glfw.WindowHint(glfw.RefreshRate, 60)
 	glfw.WindowHint(glfw.Resizable, glfw.False)
 	glfw.WindowHint(glfw.Decorated, glfw.False)
@@ -32,7 +29,7 @@ func PrimaryWindow() *glfw.Window {
 	glfw.WindowHint(glfw.OpenGLForwardCompatible, glfw.True)
 	glfw.WindowHint(glfw.OpenGLProfile, glfw.OpenGLCompatProfile)
 	
-	win, err := glfw.CreateWindow(windowWidth, windowHeight, "Clarity", nil, nil)
+	win, err := glfw.CreateWindow(winW, winH, "Clarity", nil, nil)
 	if err != nil {
 		log.Fatalf("Create window error: \n%v", err)
 	}
@@ -41,7 +38,7 @@ func PrimaryWindow() *glfw.Window {
 	win.SetAttrib(glfw.Floating, 1)
 
 	vidMode := glfw.GetPrimaryMonitor().GetVideoMode()
-	win.SetPos(vidMode.Width-160, vidMode.Height-1075)
+	win.SetPos(vidMode.Width-alX, vidMode.Height-alY)
 	win.Hide()
 
 	return win

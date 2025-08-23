@@ -1,10 +1,11 @@
 package core
 
 import (
-	"os"
+	"io"
 	"fmt"
 	"log"
 	"time"
+	"bytes"
 
 	"github.com/faiface/beep"
 	"github.com/faiface/beep/mp3"
@@ -25,15 +26,15 @@ func renderView(timerChan chan string) {
 	timerChan <- "00.00"
 }
 
-func Timer(win *glfw.Window, timerChan chan string, done *bool) {
+func Timer(win *glfw.Window, timerChan chan string, auData []byte, done *bool) {
 	for {
-		time.Sleep(1*time.Second)
+		time.Sleep(20*time.Minute)
 		win.Show()
 		*done = true
-		playMP3()
+		playMP3(auData)
 
 		renderView(timerChan)
-		playMP3()
+		playMP3(auData)
 		win.Hide()
 	}
 }
@@ -44,13 +45,10 @@ func initSpeaker(format beep.Format) {
 	initialized = true
 }
 
-func playMP3() {
-	f, err := os.Open("assets/beep.mp3")
-	if err != nil {
-		log.Printf("Open mp3 error: %v", err)
-		return
-	}
-	streamer, format, err := mp3.Decode(f)
+func playMP3(audioData []byte) {
+	reader := bytes.NewReader(audioData)
+	readCloser := io.NopCloser(reader)
+	streamer, format, err := mp3.Decode(readCloser)
 	if err != nil {
 		log.Printf("Decode mp3 error: %v", err)
 		return

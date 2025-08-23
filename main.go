@@ -10,6 +10,7 @@ import (
 	"Clarity/internal/ui"
 	"Clarity/internal/core"
 	"Clarity/internal/render"
+	"Clarity/internal/config"
 )
 
 func init() {
@@ -26,17 +27,21 @@ func main() {
 		log.Fatalf("OpenGL init error: \n%v", err)
 	}
 	log.SetFlags(log.Lshortfile)
+	cfg, err := config.Parse()
+	if err != nil {
+		log.Fatalf("Config getting error: \n%v", err)
+	}
 
 	for {
-		win := ui.PrimaryWindow()
-		pg, ofl := render.Setup()
+		win := ui.PrimaryWindow(cfg.AlignX, cfg.AlignY, cfg.WinW, cfg.WinH)
+		pg, ofl := render.Setup(cfg.BackC, cfg.TextC)
 
 		hv := ui.CreateView(pg, ofl)
 
 		done := false
 		var remaining string
 		timerChan := make(chan string)
-		go core.Timer(win, timerChan, &done)
+		go core.Timer(win, timerChan, cfg.Sound, &done)
 
 		gl.LineWidth(2.0)
 		glfw.SwapInterval(1)
