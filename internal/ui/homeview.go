@@ -10,16 +10,21 @@ type elemMesh struct {
 }
 
 type HomeView struct {
-	elems [10]elemMesh
+	elems [11]elemMesh
 	pg uint32
 	ofL int32
 }
 
 func CreateView(pg uint32, ofl int32) *HomeView {
-	var elems [10]elemMesh
-	for i := 0; i < 10; i++ {
-		d := digit{num: i}
-		el := d.create(0)
+	var elems [11]elemMesh
+	for i := 0; i < 11; i++ {
+		d := digit{}
+		if i == 10 {
+			d.setNum(rune('.'))
+		} else {
+			d.setNum(rune(i))
+		}
+		el := d.create()
 		vao := render.CreateVAO(el.getVtc())
 		elems[i] = elemMesh{vao: vao, vtq: el.getVtq()}
 	}
@@ -27,11 +32,19 @@ func CreateView(pg uint32, ofl int32) *HomeView {
 	return &HomeView{elems: elems, pg: pg, ofL: ofl}
 }
 
-func (hv *HomeView) Render(num int) {
-	digit1 := num / 10
-	digit2 := num % 10
-	render.ElemRender(hv.pg, hv.ofL,
-		hv.elems[digit1].vao, hv.elems[digit1].vtq, 0.0)
-	render.ElemRender(hv.pg, hv.ofL,
-		hv.elems[digit2].vao, hv.elems[digit2].vtq, 0.15)
+func (hv *HomeView) Render(num string) {
+	nums := []rune(num)
+	offset := float32(0.0)
+	for _, char := range nums {
+		if char == '.' {
+			render.ElemRender(hv.pg, hv.ofL,
+				hv.elems[10].vao, hv.elems[10].vtq, offset)
+			offset += 0.09
+			continue
+		}
+		digit := int(char - '0')
+		render.ElemRender(hv.pg, hv.ofL,
+			hv.elems[digit].vao, hv.elems[digit].vtq, offset)
+		offset += 0.15
+	}
 }

@@ -6,18 +6,19 @@ import (
 	"github.com/go-gl/glfw/v3.3/glfw"
 )
 
-const windowWidth = 210
-const windowHeight = 90
+const windowWidth = 150
+const windowHeight = 70
 
 type element interface{
-	create(float32) element
+	create() element
 	getVtc() []float32
 	getVtq() int32
+	setNum(int32)
 }
 type digit struct {
 	vtc []float32
 	vtq int32
-	num int
+	num rune
 }
 
 func PrimaryWindow() *glfw.Window {
@@ -38,6 +39,10 @@ func PrimaryWindow() *glfw.Window {
 
 	win.MakeContextCurrent()
 	win.SetAttrib(glfw.Floating, 1)
+
+	vidMode := glfw.GetPrimaryMonitor().GetVideoMode()
+	win.SetPos(vidMode.Width-160, vidMode.Height-1075)
 	win.Hide()
+
 	return win
 }

@@ -2,6 +2,7 @@ package core
 
 import (
 	"os"
+	"fmt"
 	"log"
 	"time"
 
@@ -13,14 +14,28 @@ import (
 
 var initialized bool
 
-func Timer(win *glfw.Window, done *bool) {
-	time.Sleep(5*time.Second)
-	win.Show()
-	*done = true
-	playMP3()
-	time.Sleep(5*time.Second)
-	playMP3()
-	win.Hide()
+func renderView(timerChan chan string) {
+	totalMs := 20 * 1000
+	for ms := totalMs; ms > 0; ms-=100{
+		sec := ms/1000
+		mil := (ms%1000)/10
+		timerChan <- fmt.Sprintf("%02d.%02d", sec, mil/10)
+		time.Sleep(100*time.Millisecond)
+	}
+	timerChan <- "00.00"
+}
+
+func Timer(win *glfw.Window, timerChan chan string, done *bool) {
+	for {
+		time.Sleep(1*time.Second)
+		win.Show()
+		*done = true
+		playMP3()
+
+		renderView(timerChan)
+		playMP3()
+		win.Hide()
+	}
 }
 
 func initSpeaker(format beep.Format) {

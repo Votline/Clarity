@@ -25,6 +25,7 @@ func main() {
 	if err := gl.Init(); err != nil {
 		log.Fatalf("OpenGL init error: \n%v", err)
 	}
+	log.SetFlags(log.Lshortfile)
 
 	for {
 		win := ui.PrimaryWindow()
@@ -33,15 +34,17 @@ func main() {
 		hv := ui.CreateView(pg, ofl)
 
 		done := false
-		go core.Timer(win, &done)
+		var remaining string
+		timerChan := make(chan string)
+		go core.Timer(win, timerChan, &done)
 
+		gl.LineWidth(2.0)
 		glfw.SwapInterval(1)
 		for !win.ShouldClose() {
 			gl.Clear(gl.COLOR_BUFFER_BIT)
 
-			if done {
-				hv.Render(78)
-			}
+			remaining = <-timerChan
+			hv.Render(remaining)
 
 			win.SwapBuffers()
 			glfw.PollEvents()
