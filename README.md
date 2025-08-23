@@ -20,6 +20,9 @@ Every 20 minutes, Clarity will play a sound signal and display a simple timer, r
 - **Go** - Primary programming language
 - **[Go-gl](https://github.com/go-gl/gl)** - Graphics rendering
 - **[Go-gl/glfw](https://github.com/go-gl/glfw)** - Window management
+- **[Faiface/beep](https://github.com/faiface/beep)** - Audio playback and processing
+- **[Hajimehoshi/go-mp3](https://github.com/hajimehoshi/go-mp3)** - MP3 decoding for beep
+- **[Ebitengine/oto](https://github.com/ebitengine/oto)** - Low-level audio output for beep
 
 ## Installation & Building
 
