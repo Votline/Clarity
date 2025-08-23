@@ -48,6 +48,6 @@ Every 20 minutes, Clarity will play a sound signal and display a simple timer, r
     ```
 
 ## Licenses
-This project is licensed under [GNU AGPL v3](LICENSE).
+This project is licensed under [MIT](LICENSE).
 
 The full license texts are available in the [licenses directory](licenses/)
