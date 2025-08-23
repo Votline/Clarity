@@ -40,15 +40,30 @@ func main() {
 
 		done := false
 		var remaining string
+		cmdChan := make(chan string)
 		timerChan := make(chan string)
-		go core.Timer(win, timerChan, cfg.Sound, &done)
+		go core.Timer(win, timerChan, cfg.Sound, &done, cmdChan)
 
 		gl.LineWidth(2.0)
 		glfw.SwapInterval(1)
 		for !win.ShouldClose() {
+			select {
+			case cmd := <- cmdChan:
+				switch cmd {
+				case "close":
+					win.SetShouldClose(true)
+				case "show":
+					win.Show()
+				}
+			default:
+			}
+
 			gl.Clear(gl.COLOR_BUFFER_BIT)
 
-			remaining = <-timerChan
+			select {
+			case remaining = <- timerChan:
+			default:
+			}
 			hv.Render(remaining)
 
 			win.SwapBuffers()

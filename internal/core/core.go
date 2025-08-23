@@ -26,16 +26,18 @@ func renderView(timerChan chan string) {
 	timerChan <- "00.00"
 }
 
-func Timer(win *glfw.Window, timerChan chan string, auData []byte, done *bool) {
+func Timer(win *glfw.Window, timerChan chan string, auData []byte, done *bool, cmdChan chan string) {
 	for {
 		time.Sleep(20*time.Minute)
-		win.Show()
 		*done = true
+		
+		cmdChan <- "show"
 		playMP3(auData)
 
 		renderView(timerChan)
+		
+		cmdChan <- "close"
 		playMP3(auData)
-		win.Hide()
 	}
 }
 
