@@ -9,7 +9,9 @@ Every 20 minutes, Clarity will play a sound signal and display a simple timer, r
 ### Key Features:
 - **20-20-20 Rule Enforcement**: Accurate 20-minute work / 20-second break cycles
 - **Procedural UI**: Renders clean, font-less graphics
-- **Audible Alerts**: Clear sound signals for the start and end of each break
+- **Audible Alerts**: Clear sound signals embedded directly into the binary
+- **Single Binary Deployment**: All assets (sound, config) compiled into executable - no external dependencies
+- **Configurable**: Customize window size, position, colors, and timing via JSON configuration
 - **Lightweight**: Minimal resource consumption
   
 ## Controls & Interaction
