@@ -47,6 +47,7 @@ func main() {
 		gl.LineWidth(2.0)
 		glfw.SwapInterval(1)
 		for !win.ShouldClose() {
+			glfw.WaitEventsTimeout(0.1)
 			select {
 			case cmd := <- cmdChan:
 				switch cmd {
@@ -64,10 +65,12 @@ func main() {
 			case remaining = <- timerChan:
 			default:
 			}
-			hv.Render(remaining)
+		
+			if win.GetAttrib(glfw.Visible) == glfw.True {
+				hv.Render(remaining)
+			}
 
 			win.SwapBuffers()
-			glfw.PollEvents()
 		}
 		win.Destroy()
 	}
